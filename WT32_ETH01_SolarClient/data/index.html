@@ -1,0 +1,171 @@
+<!-- index.html-->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система контролю сонячної панелі</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Підключення Chart.js через CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="title">Система контролю сонячної панелі</h1>
+            <div class="status-time">
+                <span class="online-status offline" id="online-status">Offline</span>
+                <span class="current-time" id="current-time">00:00</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="current-panel" id="current-panel" >
+            <h2>Поточні дані</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="label">Стан:</div>
+                    <div class="value" id="state-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Режим:</div>
+                    <div class="value" id="mode-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Напруга:</div>
+                    <div class="value" id="voltage-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Струм:</div>
+                    <div class="value" id="current-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Температура:</div>
+                    <div class="value" id="temperature-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Вологість:</div>
+                    <div class="value" id="humidity-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Датчик сонця:</div>
+                    <div class="value" id="sunsensor-value">НД</div>
+                </div>
+                <div></div>
+                <div class="grid-item-clear">
+                    <div class="label">Положення</div>
+                </div>
+                <div></div>
+                <div class="grid-item">
+                    <div class="label">Горизонтальне:</div>
+                    <div class="value" id="horizontal-value">0</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Вертикальне:</div>
+                    <div class="value" id="vertical-value">0</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="control-panel" id="control-panel" style="display: none;">
+            <section class="no-connection-panel" id="no-connection-panel" style="display: none;">
+                <div id="no-connection" class="no-connection">
+                    <p>Панель керування недоступна. Перевірте підключення.</p>
+                </div>
+            </section>
+            <h2>Керування панеллю</h2>
+            <div class="control-container">
+                <div class="start-stop-buttons">
+                    <button id="start-button" class="control-button gray">Start</button>
+                    <button id="stop-button" class="control-button gray">Stop</button>
+                    <button id="manual-button" class="control-button gray">Manual</button>
+                </div>
+
+                <div class="position-display">
+                    <div class="position-row">
+                        <p>H: <span id="current-horizontal">0</span>°</p>
+                        <p>V: <span id="current-vertical">0</span>°</p>
+                    </div>
+                    <div class="position-row">
+                        <p>H: <span id="horizontal-state"></span></p>
+                        <p>V: <span id="vertical-state"></span></p>
+                    </div>
+                </div>
+                <div class="auto-start">
+                    <input type="checkbox" class="auto-start-checkbox" id="auto-start-checkbox">
+                    <label>
+                        Автозапуск
+                    </label>
+                   
+                </div>
+                <div class="speed-control">
+                    <label for="speed-input"><strong>Швидкість панелі:</strong></label>
+                    <input type="number" class="speed-input gray" id="speed-input" min="0" max="10" value="5" disabled>
+                </div>
+                <div class="movement-control">
+                    <div class="buttons-column">
+                        <button id="move-up" class="gray">Вверх</button>
+                        <button id="move-down" class="gray">Вниз</button>
+                    </div>
+                    <div class="buttons-column">
+                        <button id="move-left" class=" gray">Вліво</button>
+                        <button id="move-right" class=" gray">Вправо</button>
+                    </div>
+                </div>
+                <div class="reset-position-container">
+                    <button id="reset-position-button" class="control-button gray">Скидання позиції</button>
+                    <button id="zero-position-button" class="control-button gray"> Нульова позиція</button>
+                </div>
+            </div>
+        </section>
+        <section class="network-settings-panel" id="network-settings" style="display: none;">
+            <h2>Налаштування мережі</h2>
+            <div class="network-container">
+                <div class="network-input">
+                    <label for="ssid-input"><strong>SSID:</strong></label>
+                    <input type="text" id="ssid-input" placeholder="Введіть SSID" required>
+                </div>
+                <div class="network-input">
+                    <label for="password-input"><strong>Пароль:</strong></label>
+                    <input type="password" id="password-input" placeholder="Введіть пароль" required>
+                </div>
+                <div class="save-button-container">
+                    <button id="save-network-button" class="save-button">Зберегти</button>
+                </div>
+                <div>
+                    Статус мережі: 
+                    <div id="esp-status"></div>
+                </div>
+                <div>
+                    IP адреса 
+                    <div id="esp-ip"></div>
+                </div>
+            </div>
+            
+        </section>
+
+        <section class="charts-panel" id="charts-panel" style="display: none;">
+            <h2>Графіки даних</h2>
+            <div class="charts-container">
+                <canvas id="temperatureChart"></canvas>
+                <canvas id="currentChart"></canvas>
+                <canvas id="voltageChart"></canvas>
+                <canvas id="powerChart"></canvas>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="nav-btns h_center" id="nav-btns">
+            <button class="nav-button active" data-target="current-panel">Поточні</button>
+            <button class="nav-button" data-target="control-panel">Керування</button>
+            <button class="nav-button" data-target="network-settings">Мережа</button>
+           <!-- <button class="nav-button" data-target="charts-panel">Графіки</button>-->
+        </div>
+        <div class="h_center">
+            <button class="nav-button menu" id="menu-button">☰ Меню</button>
+        </div>
+        
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

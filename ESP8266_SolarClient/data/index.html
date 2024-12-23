@@ -1,0 +1,92 @@
+<!-- index.html-->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система контролю сонячної панелі</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Підключення Chart.js через CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="title">Система контролю сонячної панелі</h1>
+            <div class="status-time">
+                <span class="online-status offline" id="online-status">Offline</span>
+                <span class="current-time" id="current-time">00:00</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="current-panel" id="current-panel" >
+            <h2>Поточні дані</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="label">Стан:</div>
+                    <div class="value" id="state-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Режим:</div>
+                    <div class="value" id="mode-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Напруга:</div>
+                    <div class="value" id="voltage-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Струм:</div>
+                    <div class="value" id="current-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Температура:</div>
+                    <div class="value" id="temperature-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Вологість:</div>
+                    <div class="value" id="humidity-value">НД</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Датчик сонця:</div>
+                    <div class="value" id="sunsensor-value">НД</div>
+                </div>
+                <div></div>
+                <div class="grid-item-clear">
+                    <div class="label">Положення</div>
+                </div>
+                <div></div>
+                <div class="grid-item">
+                    <div class="label">Горизонтальне:</div>
+                    <div class="value" id="horizontal-value">0</div>
+                </div>
+                <div class="grid-item">
+                    <div class="label">Вертикальне:</div>
+                    <div class="value" id="vertical-value">0</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="charts-panel" id="charts-panel" style="display: none;">
+            <h2>Графіки даних</h2>
+            <div class="charts-container">
+                <canvas id="temperatureChart"></canvas>
+                <canvas id="currentChart"></canvas>
+                <canvas id="voltageChart"></canvas>
+                <canvas id="powerChart"></canvas>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="nav-btns h_center" id="nav-btns">
+            <button class="nav-button active" data-target="current-panel">Поточні</button>
+            <button class="nav-button" data-target="charts-panel">Графіки</button>
+        </div>
+        <div class="h_center">
+            <button class="nav-button menu" id="menu-button">☰ Меню</button>
+        </div>
+        
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
